@@ -4,6 +4,7 @@ module Wor
       class PankoFormatter < Base
         def serialized_content
           raise Wor::Paginate::Exceptions::DependencyError unless valid_serializer
+
           ActiveRecord::Base.transaction do
             Panko::ArraySerializer.new(paginated_content, each_serializer: serializer).to_a
           end

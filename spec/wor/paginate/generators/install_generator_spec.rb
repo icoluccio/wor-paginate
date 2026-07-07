@@ -2,8 +2,8 @@ require 'generator_spec'
 require 'generators/wor/paginate/install_generator'
 
 describe Wor::Paginate::Generators::InstallGenerator, type: :generator do
-  context 'generating the initializer ' do
-    destination File.expand_path('../../../../tmp', __FILE__)
+  context 'when generating the initializer' do
+    destination File.expand_path('../../../tmp', __dir__)
 
     before do
       prepare_destination

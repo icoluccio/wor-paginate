@@ -35,7 +35,9 @@ module Wor
         end
 
         def paginated_content
+          # rubocop:disable Naming/MemoizedInstanceVariableName -- @content matches the public `content` attr_accessor above; renaming it would silently change what `content` returns.
           @content ||= adapter.paginated_content
+          # rubocop:enable Naming/MemoizedInstanceVariableName
         end
 
         def serialized_content

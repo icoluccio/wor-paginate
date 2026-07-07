@@ -19,6 +19,6 @@ Gem::Specification.new do |s|
   s.require_paths = ['lib']
 
 
-  s.add_dependency 'railties', '>= 4.1.0'
-  s.add_dependency 'rails', '>= 4.0'
+  s.add_dependency 'railties', '>= 6.1', '< 9'
+  s.add_dependency 'rails', '>= 6.1', '< 9'
 end

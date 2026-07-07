@@ -77,7 +77,7 @@ describe DummyModelsWithoutGemsController, type: :controller do
 
     context 'with param page in -1' do
       it 'throws exception' do
-        expect { get :index, params: { page: -1 } }
+        expect { get :index_scoped, params: { page: -1 } }
           .to raise_exception(Wor::Paginate::Exceptions::InvalidPageNumber)
       end
     end
@@ -85,7 +85,7 @@ describe DummyModelsWithoutGemsController, type: :controller do
     context 'with param page in 2' do
       before do
         expected_list
-        get :index, params: { page: 2 }
+        get :index_scoped, params: { page: 2 }
       end
 
       let(:expected_list) do
@@ -102,7 +102,7 @@ describe DummyModelsWithoutGemsController, type: :controller do
     end
 
     context 'with param page in 1' do
-      before { get :index, params: { page: 1 } }
+      before { get :index_scoped, params: { page: 1 } }
 
       include_context 'with default pagination params'
 
@@ -112,7 +112,7 @@ describe DummyModelsWithoutGemsController, type: :controller do
     end
 
     context 'without specific page' do
-      before { get :index }
+      before { get :index_scoped }
 
       include_context 'with default pagination params'
 

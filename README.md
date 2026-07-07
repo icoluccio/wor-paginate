@@ -1,7 +1,7 @@
 Wor::Paginate
 =============
 
-[![Build Status](https://travis-ci.org/Wolox/wor-paginate.svg?branch=master)](https://travis-ci.org/Wolox/wor-paginate)
+[![CI](https://github.com/Wolox/wor-paginate/actions/workflows/ci.yml/badge.svg)](https://github.com/Wolox/wor-paginate/actions/workflows/ci.yml)
 [![Gem Version](https://badge.fury.io/rb/wor-paginate.svg)](https://badge.fury.io/rb/wor-paginate)
 [![Code Climate](https://codeclimate.com/github/Wolox/wor-paginate/badges/gpa.svg)](https://codeclimate.com/github/Wolox/wor-paginate)
 
@@ -322,12 +322,14 @@ and next pass the specific serializer that you can use in the specific endpoint
 ## Contributing
 
 1. Fork it
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Add some feature'`)
-4. Run rubocop lint (`bundle exec rubocop -R --format simple`)
-5. Run rspec tests (`bundle exec rspec`)
-6. Push your branch (`git push origin my-new-feature`)
-7. Create a new Pull Request to `master` branch
+2. Run `bundle install && bundle exec appraisal generate` once, to install dependencies and generate the per-Rails-version gemfiles (`gemfiles/rails_*.gemfile`) used for testing
+3. Run `bundle exec overcommit --install` once, to enable the pre-push hook (runs RuboCop and the full spec suite with its 100%-coverage gate automatically on every `git push`)
+4. Create your feature branch (`git checkout -b my-new-feature`)
+5. Commit your changes (`git commit -am 'Add some feature'`)
+6. Run rubocop lint (`bundle exec rubocop lib spec --format simple`)
+7. Run rspec tests (`BUNDLE_GEMFILE=gemfiles/rails_8.1.gemfile bundle exec rspec`)
+8. Push your branch (`git push origin my-new-feature`) — the pre-push hook re-verifies both automatically
+9. Create a new Pull Request to `master` branch
 
 ## Releases
 📢 [See what's changed in a recent version](https://github.com/Wolox/wor-paginate/releases)

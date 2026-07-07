@@ -10,11 +10,15 @@ describe DummySonsController, type: :controller do
         dummy_grand_son = dummy.dummy_model_sons.first.dummy_model_grand_sons.first
         { 'id' => dummy.id, 'name' => dummy.name,
           'something' => dummy.something, 'dummy_model_sons' => [
-            'id' => dummy_son.id, 'name' => dummy_son.name,
-            'something' => dummy_son.something, 'dummy_model_grand_sons' => [
-              'id' => dummy_grand_son.id, 'name' => dummy_grand_son.name,
-              'something' => dummy_grand_son.something
-            ]
+            {
+              'id' => dummy_son.id, 'name' => dummy_son.name,
+              'something' => dummy_son.something, 'dummy_model_grand_sons' => [
+                {
+                  'id' => dummy_grand_son.id, 'name' => dummy_grand_son.name,
+                  'something' => dummy_grand_son.something
+                }
+              ]
+            }
           ] }
       end
     end
@@ -37,11 +41,15 @@ describe DummySonsController, type: :controller do
           dummy_grand_son = dummy.dummy_model_sons.first.dummy_model_grand_sons.first
           [{ 'id' => dummy.id, 'name' => dummy.name,
              'something' => dummy.something, 'dummy_model_sons' => [
-               'id' => dummy_son.id, 'name' => dummy_son.name,
-               'something' => dummy_son.something, 'dummy_model_grand_sons' => [
-                 'id' => dummy_grand_son.id, 'name' => dummy_grand_son.name,
-                 'something' => dummy_grand_son.something
-               ]
+               {
+                 'id' => dummy_son.id, 'name' => dummy_son.name,
+                 'something' => dummy_son.something, 'dummy_model_grand_sons' => [
+                   {
+                     'id' => dummy_grand_son.id, 'name' => dummy_grand_son.name,
+                     'something' => dummy_grand_son.something
+                   }
+                 ]
+               }
              ] }]
         end
         let(:pagination_params) do
@@ -64,11 +72,15 @@ describe DummySonsController, type: :controller do
             dummy_grand_son = dummy.dummy_model_sons.first.dummy_model_grand_sons.first
             { 'id' => dummy.id, 'name' => dummy.name,
               'something' => dummy.something, 'dummy_model_sons' => [
-                'id' => dummy_son.id, 'name' => dummy_son.name,
-                'something' => dummy_son.something, 'dummy_model_grand_sons' => [
-                  'id' => dummy_grand_son.id, 'name' => dummy_grand_son.name,
-                  'something' => dummy_grand_son.something
-                ]
+                {
+                  'id' => dummy_son.id, 'name' => dummy_son.name,
+                  'something' => dummy_son.something, 'dummy_model_grand_sons' => [
+                    {
+                      'id' => dummy_grand_son.id, 'name' => dummy_grand_son.name,
+                      'something' => dummy_grand_son.something
+                    }
+                  ]
+                }
               ] }
           end
         end

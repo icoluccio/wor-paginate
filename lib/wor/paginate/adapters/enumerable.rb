@@ -12,6 +12,7 @@ module Wor
 
         def paginated_content
           return @paginated_content if @paginated_content
+
           content_array = @content.to_a
           @paginated_content = content_array.slice((page - 1) * @limit, @limit) || []
         end

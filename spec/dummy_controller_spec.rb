@@ -140,11 +140,13 @@ describe DummyModelsController, type: :controller do
 
     context 'when paginating an ActiveRecord with a group by query' do
       let!(:dummy_models) { create_list(:dummy_model, 1, name: 'argentina') }
-      let!(:dummy_models_2) { create_list(:dummy_model, 2, name: 'uruguay') }
-      let!(:dummy_models_3) { create_list(:dummy_model, 3, name: 'costa rica') }
       let(:limit) { 2 }
 
-      before { get :index_group_by, params: { per: limit } }
+      before do
+        create_list(:dummy_model, 2, name: 'uruguay')
+        create_list(:dummy_model, 3, name: 'costa rica')
+        get :index_group_by, params: { per: limit }
+      end
 
       it 'responds with a page with expected length' do
         expect(response_body(response)['page'].length).to eq 2

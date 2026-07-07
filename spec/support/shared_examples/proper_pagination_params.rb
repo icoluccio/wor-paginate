@@ -1,4 +1,4 @@
-require_relative '../helpers/uri_parser.rb'
+require_relative '../helpers/uri_parser'
 
 shared_examples 'proper pagination params' do
   it 'responds with page' do

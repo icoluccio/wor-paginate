@@ -11,8 +11,6 @@ module Wor
             query_param_value ? Time.parse(query_param_value) : now_timestamp
           end
 
-          private_class_method
-
           def self.now_timestamp
             Time.zone.now.iso8601(10)
           end
