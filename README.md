@@ -1,9 +1,8 @@
 Wor::Paginate
 =============
 
-[![CI](https://github.com/Wolox/wor-paginate/actions/workflows/ci.yml/badge.svg)](https://github.com/Wolox/wor-paginate/actions/workflows/ci.yml)
+[![CI](https://github.com/icoluccio/wor-paginate/actions/workflows/ci.yml/badge.svg)](https://github.com/icoluccio/wor-paginate/actions/workflows/ci.yml)
 [![Gem Version](https://badge.fury.io/rb/wor-paginate.svg)](https://badge.fury.io/rb/wor-paginate)
-[![Code Climate](https://codeclimate.com/github/Wolox/wor-paginate/badges/gpa.svg)](https://codeclimate.com/github/Wolox/wor-paginate)
 
 # Table of contents
   - [Description](#description)
@@ -250,7 +249,7 @@ If the content is an ActiveRecord::Relation, for example, this adapter would wor
 ##### Other available methods to overwrite
 `Wor::Paginate::Adapters::Base` also has implementations for `#next_page` and `#previous_page` methods (which calculate the number of the next and previous pages, respectively). If you want, you can also overwrite those methods, to calculate custom 'next' and 'previous' page numbers.
 
-To understand better the implementation of the Base Adapter and how you could overwrite methods in order to make a functional Custom Adapter, take a look at its definition in: [Base adapter Class](https://github.com/Wolox/wor-paginate/blob/master/lib/wor/paginate/adapters/base.rb).
+To understand better the implementation of the Base Adapter and how you could overwrite methods in order to make a functional Custom Adapter, take a look at its definition in: [Base adapter Class](https://github.com/icoluccio/wor-paginate/blob/main/lib/wor/paginate/adapters/base.rb).
 Keep in mind that an instance of your Custom Adapter must answer `true` to the `#adapt?` method inherited from the Base Adapter, in order to make it "adaptable" to the content.
 
 #### Adapters Operations
@@ -259,7 +258,7 @@ There are also helper methods available to dynamically operate the gem's adapter
 * `Wor::Paginate::Config.remove_adapter(adapter)`: Remove an specific adapter from the array of the gem's adapters.
 * `Wor::Paginate::Config.clear_adapters`: This method empties the array of the gem's adapters.
 * `Wor::Paginate::Config.adapters`: Returns all the current internal adapters inside the gem.
-* `Wor::Paginate::Config.reset_adapters!`: This helper resets the gem's adapters to its default array of adapters. You can see how the array of default adapters looks like at the beggining of the `Wor::Paginate::Config` module: [Config module](https://github.com/Wolox/wor-paginate/blob/master/lib/wor/paginate/config.rb).
+* `Wor::Paginate::Config.reset_adapters!`: This helper resets the gem's adapters to its default array of adapters. You can see how the array of default adapters looks like at the beggining of the `Wor::Paginate::Config` module: [Config module](https://github.com/icoluccio/wor-paginate/blob/main/lib/wor/paginate/config.rb).
 
 When the gem paginates, it tries to adapt the content to the first adapter that is "adaptable" for the content (unless a custom adapter has been passed to render_paginated or a default_adapter has been defined in the initializer). So beware of which adapters (and in which order) are you leaving in the `Wor::Paginate::Config.adapters` array, because depending on those, the gem will try to adapt the content.
 
@@ -329,10 +328,10 @@ and next pass the specific serializer that you can use in the specific endpoint
 6. Run rubocop lint (`bundle exec rubocop lib spec --format simple`)
 7. Run rspec tests (`BUNDLE_GEMFILE=gemfiles/rails_8.1.gemfile bundle exec rspec`)
 8. Push your branch (`git push origin my-new-feature`) — the pre-push hook re-verifies both automatically
-9. Create a new Pull Request to `master` branch
+9. Create a new Pull Request to `main` branch
 
 ## Releases
-📢 [See what's changed in a recent version](https://github.com/Wolox/wor-paginate/releases)
+📢 [See what's changed in a recent version](https://github.com/icoluccio/wor-paginate/releases)
 
 ## About ##
 
@@ -350,7 +349,7 @@ At [Wolox](http://www.wolox.com.ar)
 
 ## License
 
-**wor-paginate** is available under the MIT [license](https://raw.githubusercontent.com/Wolox/wor-paginate/master/LICENSE.md).
+**wor-paginate** is available under the MIT [license](https://raw.githubusercontent.com/icoluccio/wor-paginate/main/LICENSE.md).
 
     Copyright (c) 2017 Wolox
 

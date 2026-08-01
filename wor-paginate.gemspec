@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
   s.date        = Date.today
   s.authors     = ["icoluccio", "mnmallea", "holywyvern", "lucasVoboril"]
   s.email       = ["ignacio.coluccio@wolox.com.ar", "martin.mallea@wolox.com.ar", "ramiro.rojo@wolox.com.ar", "lucas.voboril@wolox.com.ar"]
-  s.homepage    = "https://github.com/Wolox/wor-paginate"
+  s.homepage    = "https://github.com/icoluccio/wor-paginate"
   s.summary     = "Simplified pagination for Rails API controllers"
   s.description = "Wor::Paginate is a gem for Rails that simplifies pagination, particularly for controller methods, while standardizing JSON output for APIs. It's meant to work both as a standalone pagination gem and as an extra layer over Kaminari and will_paginate"
   s.license     = "MIT"
