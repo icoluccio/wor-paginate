@@ -1,5 +1,8 @@
 ## Change log
 
+### V0.4.1
+* [#2](https://github.com/icoluccio/wor-paginate/pull/2) Remove remaining dead Wolox links - [@icoluccio](https://github.com/icoluccio).
+
 ### V0.4.0
 * [#1](https://github.com/icoluccio/wor-paginate/pull/1) Add Rails 8.0/8.1 support, HTTP-level request specs, and rubocop cleanup - [@icoluccio](https://github.com/icoluccio).
 
