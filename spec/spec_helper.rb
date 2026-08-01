@@ -5,12 +5,12 @@ SimpleCov.start do
   minimum_coverage 100
 end
 
-require File.expand_path('../../spec/dummy/config/environment.rb', __FILE__)
+require File.expand_path('../spec/dummy/config/environment.rb', __dir__)
 require 'rspec/rails'
 require 'wor/paginate/rspec'
-Dir[File.join('.', 'spec', 'support', '**', '*.rb')].each{ |f| require(f) }
+Dir[File.join('.', 'spec', 'support', '**', '*.rb')].each { |f| require(f) }
 
-ActiveRecord::Migrator.migrations_paths = [File.expand_path('../../spec/dummy/db/migrate', __FILE__)]
+ActiveRecord::Migrator.migrations_paths = [File.expand_path('../spec/dummy/db/migrate', __dir__)]
 RSpec.configure do |config|
   # DatabaseCleaner already wraps each example in a transaction below;
   # rspec-rails's own wrapping double-nests it and was observed to leak
@@ -29,7 +29,7 @@ RSpec.configure do |config|
     conn.data_sources.each { |t| conn.schema_cache.add(t) }
   end
 
-  config.around(:each) do |example|
+  config.around do |example|
     DatabaseCleaner.cleaning do
       example.run
     end

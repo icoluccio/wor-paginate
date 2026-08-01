@@ -4,11 +4,9 @@ plugins:
 AllCops:
   Exclude:
     - wor-paginate.gemspec
-    - spec/spy.rb
     - spec/dummy/db/**/*
     - spec/dummy/config/**/*
     - spec/dummy/bin/**/*
-    - spec/spec_helper.rb
   TargetRubyVersion: 3.2
   NewCops: disable
   SuggestExtensions: false
@@ -50,14 +48,13 @@ Lint/AmbiguousBlockAssociation:
 RSpec/LetSetup:
   Enabled: false
 
+# matchers_spec.rb describes DummyModelsController to test the be_paginated
+# matcher against real responses, not to test the controller itself, so its
+# name doesn't follow the described-class convention on purpose.
 RSpec/SpecFilePathFormat:
   Exclude:
-    - spec/dummy_controller_without_gems_spec.rb
     - spec/matchers_spec.rb
-    - spec/dummy_controller_spec.rb
 
 RSpec/SpecFilePathSuffix:
   Exclude:
-    - spec/dummy_controller_without_gems_spec.rb
     - spec/matchers_spec.rb
-    - spec/dummy_controller_spec.rb
