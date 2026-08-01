@@ -24,6 +24,7 @@ group :development, :test do
   gem 'kaminari', '~> 1.2'
   gem 'overcommit', '~> 0.71'
   gem 'panko_serializer', '~> 0.8.5'
+  gem 'puma', '~> 6.0'
   gem 'rake', '~> 13.0'
   gem 'rspec', '~> 3.13'
   gem 'rspec-rails', '>= 6.0', '< 9'
