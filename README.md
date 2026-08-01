@@ -339,10 +339,11 @@ The current maintainer of this gem is:
 * [Ignacio Coluccio](https://github.com/icoluccio)
 
 This project was developed by:
-* [Hugo Farji](https://github.com/hdf1986)
 * [Ignacio Coluccio](https://github.com/icoluccio)
-* [Alan Halatian](https://github.com/alanhala)
 * [Martín Mallea](https://github.com/mnmallea)
+* [Samir Tapiero](https://github.com/blacksam07)
+* [Hugo Farji](https://github.com/hdf1986)
+* [Alan Halatian](https://github.com/alanhala)
 
 Originally at [Wolox](http://www.wolox.com.ar)
 
