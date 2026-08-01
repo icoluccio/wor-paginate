@@ -345,9 +345,7 @@ This project was developed by:
 * [Hugo Farji](https://github.com/hdf1986)
 * [Alan Halatian](https://github.com/alanhala)
 
-Originally at [Wolox](http://www.wolox.com.ar)
-
-[![Wolox](https://raw.githubusercontent.com/Wolox/press-kit/master/logos/logo_banner.png)](http://www.wolox.com.ar)
+Originally at Wolox
 
 ## License
 

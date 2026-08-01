@@ -8,7 +8,7 @@ Wor::Paginate.configure do |config|
   # In case you want to use other format for your response, you can override our formatter here
   # You can extend from Wor::Paginate::Formatters::Base and override the 'format' method
   # For more info about available methods for formatters see:
-  # https://github.com/Wolox/wor-paginate/blob/master/lib/wor/paginate/formatters/base.rb
+  # https://github.com/icoluccio/wor-paginate/blob/main/lib/wor/paginate/formatters/base.rb
   # config.formatter = Wor::Paginate::Formatters::AmsFormatter
 
   # Configure a default adapter to use on pagination
