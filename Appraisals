@@ -14,6 +14,10 @@ appraise 'rails-6.1' do
   # declaring it as a dependency. Only rails-6.1 needs this pin.
   gem 'mutex_m'
 
+  # Ruby 4.0 removed benchmark from the default gems the same way; activesupport
+  # 6.1.x requires it internally (core_ext/benchmark.rb) without declaring it.
+  gem 'benchmark'
+
   gem 'sqlite3', '~> 1.4'
 end
 
