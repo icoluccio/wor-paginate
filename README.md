@@ -335,15 +335,16 @@ and next pass the specific serializer that you can use in the specific endpoint
 
 ## About ##
 
-The current maintainers of this gem are :
-* [Martín Mallea](https://github.com/mnmallea)
+The current maintainer of this gem is:
+* [Ignacio Coluccio](https://github.com/icoluccio)
 
 This project was developed by:
 * [Hugo Farji](https://github.com/hdf1986)
 * [Ignacio Coluccio](https://github.com/icoluccio)
 * [Alan Halatian](https://github.com/alanhala)
+* [Martín Mallea](https://github.com/mnmallea)
 
-At [Wolox](http://www.wolox.com.ar)
+Originally at [Wolox](http://www.wolox.com.ar)
 
 [![Wolox](https://raw.githubusercontent.com/Wolox/press-kit/master/logos/logo_banner.png)](http://www.wolox.com.ar)
 
@@ -352,6 +353,7 @@ At [Wolox](http://www.wolox.com.ar)
 **wor-paginate** is available under the MIT [license](https://raw.githubusercontent.com/icoluccio/wor-paginate/main/LICENSE.md).
 
     Copyright (c) 2017 Wolox
+    Copyright (c) 2026 Ignacio Coluccio
 
     Permission is hereby granted, free of charge, to any person obtaining a copy
     of this software and associated documentation files (the "Software"), to deal
