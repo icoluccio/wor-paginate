@@ -1,21 +1,15 @@
-# Every appraise block below declares its own `sqlite3` constraint. The
-# root Gemfile intentionally leaves sqlite3 unpinned: activerecord 6.1/7.0
-# hard-pin `gem "sqlite3", "~> 1.4"` internally
-# (lib/active_record/connection_adapters/sqlite3_adapter.rb), while 8.0/8.1
-# require `>= 2.1`. Bundler disallows declaring the same gem twice with
-# different version requirements in one Gemfile, so each Rails version's
-# compatible sqlite3 range has to live here instead of in the shared Gemfile.
+# sqlite3 is pinned per Rails version here, not in the Gemfile: activerecord
+# 6.1/7.0 hard-pin "~> 1.4" internally, 8.0/8.1 need ">= 2.1", and Bundler
+# won't allow the same gem pinned twice in one Gemfile.
 
 appraise 'rails-6.1' do
   gem 'rails', '~> 6.1.0'
 
-  # Ruby 3.4 demoted mutex_m from a default gem to a regular gem;
-  # activesupport 6.1.x calls `require 'mutex_m'` internally without
-  # declaring it as a dependency. Only rails-6.1 needs this pin.
+  # activesupport 6.1.x requires mutex_m without declaring it; Ruby 3.4+ no
+  # longer bundles it by default.
   gem 'mutex_m'
 
-  # Ruby 4.0 removed benchmark from the default gems the same way; activesupport
-  # 6.1.x requires it internally (core_ext/benchmark.rb) without declaring it.
+  # Same issue for benchmark, removed by default in Ruby 4.0.
   gem 'benchmark'
 
   gem 'sqlite3', '~> 1.4'

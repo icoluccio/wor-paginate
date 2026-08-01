@@ -12,26 +12,19 @@ Dir[File.join('.', 'spec', 'support', '**', '*.rb')].each{ |f| require(f) }
 
 ActiveRecord::Migrator.migrations_paths = [File.expand_path('../../spec/dummy/db/migrate', __FILE__)]
 RSpec.configure do |config|
-  # DatabaseCleaner manages its own transaction per example below (see
-  # around(:each)); rspec-rails's own transactional wrapping defaults to on
-  # and double-wraps every example in a second, separately-managed
-  # transaction, which was observed to leave stray committed rows behind
-  # for at least one example per run. Disable it so DatabaseCleaner is the
-  # only thing managing per-example transactions.
+  # DatabaseCleaner already wraps each example in a transaction below;
+  # rspec-rails's own wrapping double-nests it and was observed to leak
+  # committed rows. Disable it here.
   config.use_transactional_fixtures = false
 
   config.before(:suite) do
     DatabaseCleaner.strategy = :transaction
     DatabaseCleaner.clean_with(:truncation)
 
-    # Warm the schema cache for every table before the first DatabaseCleaner
-    # transaction opens. Without this, the *first* example to touch a given
-    # table triggers SQLite schema introspection (PRAGMA table_info, via
-    # ActiveRecord's lazy per-table column cache) while inside that
-    # example's DatabaseCleaner transaction. That introspection query was
-    # observed to silently end the open transaction, so the rows that
-    # example creates commit for real instead of rolling back, leaking into
-    # every subsequent example for the rest of the run.
+    # Warms the schema cache before any DatabaseCleaner transaction opens.
+    # Otherwise the first example touching a table triggers a PRAGMA
+    # table_info query mid-transaction, which silently ends it and commits
+    # that example's rows for real instead of rolling back.
     conn = ActiveRecord::Base.connection
     conn.data_sources.each { |t| conn.schema_cache.add(t) }
   end

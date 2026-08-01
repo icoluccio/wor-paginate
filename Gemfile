@@ -31,11 +31,8 @@ group :development, :test do
   gem 'rubocop', '~> 1.88'
   gem 'rubocop-rspec', '~> 3.10'
   gem 'simplecov', '~> 0.22'
-  # sqlite3 is intentionally NOT pinned here: activerecord 6.1/7.0 hard-pin
-  # `gem "sqlite3", "~> 1.4"` internally (sqlite3_adapter.rb) while 8.0/8.1
-  # require `>= 2.1`. Bundler disallows declaring the same gem twice with
-  # different version requirements, so each appraise block in `Appraisals`
-  # declares the sqlite3 constraint that matches its Rails version instead.
+  # sqlite3 is pinned per Rails version in Appraisals instead, since the
+  # required range differs across supported versions.
   gem 'webmock', '~> 3.26'
   gem 'will_paginate', '~> 4.0'
 end
