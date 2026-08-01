@@ -31,6 +31,21 @@ describe DummyModelsController, type: :controller do
     end
   end
 
+  describe '#be_paginated failure messages' do
+    it 'describes the mismatch when the positive expectation fails' do
+      get :index_custom_formatter
+      expect { expect(response_body(response)).to be_paginated }
+        .to raise_error(RSpec::Expectations::ExpectationNotMetError, /to be paginated with keys/)
+    end
+
+    it 'describes the mismatch when the negated expectation fails' do
+      get :index
+      expect { expect(response_body(response)).not_to be_paginated }
+        .to raise_error(RSpec::Expectations::ExpectationNotMetError,
+                        /not to be paginated with keys/)
+    end
+  end
+
   describe '#be_paginated.with' do
     context 'when using response_body' do
       it 'checks that the response keys matches with the custom formatter' do

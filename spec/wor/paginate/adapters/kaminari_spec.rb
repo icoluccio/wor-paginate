@@ -35,6 +35,10 @@ describe Wor::Paginate::Adapters::Kaminari do
         it 'responds to paginated_content' do
           expect(adapter.paginated_content.class).to be paginated.class
         end
+
+        it 'has no previous_page when already on the first page' do
+          expect(adapter.previous_page).to be_nil
+        end
       end
     end
   end

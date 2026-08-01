@@ -81,10 +81,12 @@ describe DummyModelsTotalCountController, type: :controller do
 
     context 'when paginating an ActiveRecord with a group by query' do
       let!(:dummy_models) { create_list(:dummy_model, 1, name: 'argentina') }
-      let!(:dummy_models_2) { create_list(:dummy_model, 2, name: 'uruguay') }
-      let!(:dummy_models_3) { create_list(:dummy_model, 3, name: 'costa rica') }
 
-      before { get :index_group_by, params: { per: 2 } }
+      before do
+        create_list(:dummy_model, 2, name: 'uruguay')
+        create_list(:dummy_model, 3, name: 'costa rica')
+        get :index_group_by, params: { per: 2 }
+      end
 
       include_examples 'total count pagination param'
 

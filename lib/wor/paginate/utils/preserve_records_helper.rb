@@ -25,6 +25,7 @@ module Wor
             by = options[:by]&.to_s || 'timestamp'
             raise ArgumentError, "'by' option should be 'id' or 'timestamp'" unless
               %w[timestamp id].include? by
+
             "Wor::Paginate::Utils::PreserveModes::#{by.classify}".constantize
           end
         end

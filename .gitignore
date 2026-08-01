@@ -335,3 +335,8 @@ $RECYCLE.BIN/
 CLAUDE.md
 .claude/
 docs/superpowers/
+.superpowers/
+
+### Appraisal ###
+/gemfiles/*.gemfile
+/gemfiles/*.gemfile.lock

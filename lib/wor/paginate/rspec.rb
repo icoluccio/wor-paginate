@@ -1,5 +1,7 @@
 class MockedAdapter < Wor::Paginate::Adapters::Base
-  def initialize; end
+  def initialize
+    super(nil, 1, 1)
+  end
 
   def count
     3

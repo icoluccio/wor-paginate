@@ -1,19 +1,23 @@
+plugins:
+  - rubocop-rspec
+
 AllCops:
   Exclude:
     - wor-paginate.gemspec
-    - spec/spy.rb
     - spec/dummy/db/**/*
     - spec/dummy/config/**/*
-    - spec/spec_helper.rb
-  TargetRubyVersion: 2.3.8
+    - spec/dummy/bin/**/*
+  TargetRubyVersion: 3.2
+  NewCops: disable
+  SuggestExtensions: false
 
-Documentation:
+Style/Documentation:
   Enabled: false
 
-LineLength:
+Layout/LineLength:
   Max: 99
 
-FrozenStringLiteralComment:
+Style/FrozenStringLiteralComment:
   Enabled: false
 
 Metrics/BlockLength:
@@ -23,9 +27,7 @@ Metrics/BlockLength:
 
 # rubocop-rspec custom configurations
 
-require: rubocop-rspec
-
-Style/VariableNumber:
+Naming/VariableNumber:
   EnforcedStyle: snake_case
 
 RSpec/ExampleLength:
@@ -46,8 +48,13 @@ Lint/AmbiguousBlockAssociation:
 RSpec/LetSetup:
   Enabled: false
 
-RSpec/FilePath:
+# matchers_spec.rb describes DummyModelsController to test the be_paginated
+# matcher against real responses, not to test the controller itself, so its
+# name doesn't follow the described-class convention on purpose.
+RSpec/SpecFilePathFormat:
   Exclude:
-    - spec/dummy_controller_without_gems_spec.rb
     - spec/matchers_spec.rb
-    - spec/dummy_controller_spec.rb
+
+RSpec/SpecFilePathSuffix:
+  Exclude:
+    - spec/matchers_spec.rb

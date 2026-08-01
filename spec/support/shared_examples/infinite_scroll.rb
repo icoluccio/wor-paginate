@@ -1,4 +1,3 @@
-
 shared_examples 'infinite scroll' do
   it do
     posts

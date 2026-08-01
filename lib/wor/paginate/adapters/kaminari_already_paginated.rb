@@ -6,9 +6,11 @@ module Wor
       class KaminariAlreadyPaginated < Base
         def required_methods
           # Methods Kaminari adds to ActiveRecord relations:
-          ### [:padding, :per, :total_pages, :num_pages, :current_page, :first_page?,
+          ### [:padding, :per, :total_pages, :current_page, :first_page?,
           ### :prev_page, :last_page?, :next_page, :out_of_range?, :total_count, :entry_name]
-          %i[padding total_count num_pages current_page prev_page]
+          # num_pages was removed upstream (kaminari-core 1.2.2 only defines
+          # total_pages); checking for it made adapt? always fail.
+          %i[padding total_count total_pages current_page prev_page]
         end
 
         def paginated_content

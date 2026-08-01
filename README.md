@@ -1,9 +1,8 @@
 Wor::Paginate
 =============
 
-[![Build Status](https://travis-ci.org/Wolox/wor-paginate.svg?branch=master)](https://travis-ci.org/Wolox/wor-paginate)
+[![CI](https://github.com/icoluccio/wor-paginate/actions/workflows/ci.yml/badge.svg)](https://github.com/icoluccio/wor-paginate/actions/workflows/ci.yml)
 [![Gem Version](https://badge.fury.io/rb/wor-paginate.svg)](https://badge.fury.io/rb/wor-paginate)
-[![Code Climate](https://codeclimate.com/github/Wolox/wor-paginate/badges/gpa.svg)](https://codeclimate.com/github/Wolox/wor-paginate)
 
 # Table of contents
   - [Description](#description)
@@ -49,7 +48,7 @@ Then you can run `rails generate wor:paginate:install` to create the initializer
 
 ## Usage
 ### Basic usage
-The basic use case is to paginate using default values. This is achieved by including the module in a controller and calling render_paginate in the method that needs pagination.
+The basic use case is to paginate using default values. This is achieved by including the module in a controller and calling render_paginated in the method that needs pagination.
 ```ruby
   class DummyModelsController < ApplicationController
     include Wor::Paginate
@@ -92,11 +91,11 @@ The response to the index will then be:
   "previous_page": null,
   "next_page": 2,
   "previous_page_url": null,
-  "next_page_url": "http://api.example.com/users?page=2
+  "next_page_url": "http://api.example.com/users?page=2"
 }
 ```
 
-Page number is passed through the `page` option of the `render_paginated` method. If none is supplied, `params[:page]` will be used, (or the default parameter configured in the initializer).
+Page number is passed through the `page` option of the `render_paginated` method. If none is supplied, `params[:page]` will be used (or the default parameter configured in the initializer).
 By default, if the page parameter is not present we will use 1 as the page (or the default `page` parameter configured in the initializer).
 The amount of items is passed through the `limit` option of the `render_paginated` method. If none is supplied, `params[:limit]` will be used (or the default parameter configured in the initializer). Default is 25.
 The default serializer and formatter will be used.
@@ -111,7 +110,7 @@ where the serializer is just an [`ActiveModel::Serializer`](https://github.com/r
 
 #### Custom options
 ##### max_limit
-The max amount of items is passed through the `max_limit` option, You can set the value in the initializer or in the `render_paginated` method, (If none is supplied, take the default value configured in the initializer). Default is 50.
+The max amount of items is passed through the `max_limit` option. You can set the value in the initializer or in the `render_paginated` method (If none is supplied, take the default value configured in the initializer). Default is 50.
 
 ```ruby
   render_paginated DummyModel, max_limit: 100
@@ -135,7 +134,7 @@ end
 ```
 
 ##### total_count
-You can overwrite the `total_count` pagination param by passing it as a single option to the method. This could be used if the whole collection to be paginated is complex and has the risk to broke when counting all the records.
+You can overwrite the `total_count` pagination param by passing it as a single option to the method. This could be used if the whole collection to be paginated is complex and has the risk to break when counting all the records.
 
 ```ruby
   render_paginated DummyModel, total_count: 50
@@ -144,7 +143,7 @@ You can overwrite the `total_count` pagination param by passing it as a single o
 ##### preserve_records
 > WARNING: This option only works with an ActiveRecord collection.
 
-Preserve records option can be added to `render_paginated` to mantain current records. This allow to navigate pages like an infinite scroll without adding new records when switching pages.
+Preserve records option can be added to `render_paginated` to maintain current records. This allows to navigate pages like an infinite scroll without adding new records when switching pages.
 
 - Timestamp mode (default)
 ```ruby
@@ -178,7 +177,7 @@ render_paginated DummyModel, formatter: CustomFormatter
 ```
 or it can also be set as a default in the initializer.
 
-A new formatter can be created inheriting from the default one. The `format` method should be redefined returning something that can be converted to json.
+A new formatter can be created inheriting from the default one. The `format` method should be redefined returning something that can be converted to JSON.
 
 ```ruby
 class CustomFormatter < Wor::Paginate::Formatters::Base
@@ -205,7 +204,7 @@ render_paginated DummyModel, adapter: CustomAdapter
 or it can also be set as a default in the initializer.
 
 A new adapter can be created inheriting from the default Base Adapter. Some methods must be redefined in order to make the adapter "adaptable" to the content that will be rendered.
-Below is an example of a simple posible CustomAdapter that extends from the base Adapter.
+Below is an example of a simple possible CustomAdapter that extends from the base Adapter.
 
 ```ruby
 class CustomAdapter < Wor::Paginate::Adapters::Base
@@ -234,7 +233,7 @@ Here's a brief explanation on every overwritten method in this CustomAdapter exa
 These will be the methods (as symbols) that the content to be rendered has to support. The next expression will be evaluated for every method added here: `@content.respond_to? method`. All required_methods must answer `true` to the previous expression, in order to make the adapter "adaptable" for the content. For example, if we rendered an ActiveRecord::Relation, this CustomAdapter would be adaptable because an ActiveRecord::Relation responds to the `#count` method. At least one symbol has to be returned in this method, otherwise the adapter won't be able to render content. 
 
 ##### `#paginated_content`
-This is how the content will be shown. As the content comes in the inherited instance variable `@content`, we can transform the content however we want. In the CustomAdapter example, will always be shown the first 5 records.
+This is how the content will be shown. As the content comes in the inherited instance variable `@content`, we can transform the content however we want. In the CustomAdapter example, the first 5 records will always be shown.
 
 ##### `#total_pages`
 This could be defined as the number of pages, given the limit requested. As the other values, this can be a custom number of pages, depending on your needs. For this example, this number is just an integer calculation of the total pages, depending on the limit. Also, like `@content`, we are inheriting the `@limit` variable, which allows us to operate with it however we want.
@@ -243,29 +242,29 @@ This could be defined as the number of pages, given the limit requested. As the 
 This will be the number that will tell us 'how many records is returning the request'. Again, we can customize it however we want. For this particular example this will be just the count of `@content`.
 
 ##### `#count` method as delegate
-In the end of the CustomAdapter we are delegating the `#count` method to the `paginated_content`. This is because the Base Adapter delegates that method to the inherited adapter, so our custom adapter has to know "how to calculate" that method, that's why we are defining a `#count` method in the delegation (It is always mandatory to define the `#count` method in a custom adapter, whether is a method definition or a delegate).
+At the end of the CustomAdapter we are delegating the `#count` method to the `paginated_content`. This is because the Base Adapter delegates that method to the inherited adapter, so our custom adapter has to know "how to calculate" that method, that's why we are defining a `#count` method in the delegation (It is always mandatory to define the `#count` method in a custom adapter, whether it is a method definition or a delegate).
 
-If the content is an ActiveRecord::Relation, for example, this adapter would work, because `paginated_content` would become an ActiveRecord::Relation, which actually knows "how to calculate" the count method. This works as a delegate, because ActiveRecord::Relation has an internal `#count` definition, but we would have to provide the needed method definition if it is a custom method, or we want a custom behaviour of a known method.
+If the content is an ActiveRecord::Relation, for example, this adapter would work, because `paginated_content` would become an ActiveRecord::Relation, which actually knows "how to calculate" the count method. This works as a delegate, because ActiveRecord::Relation has an internal `#count` definition, but we would have to provide the needed method definition if it is a custom method, or if we want a custom behaviour of a known method.
 
 ##### Other available methods to overwrite
 `Wor::Paginate::Adapters::Base` also has implementations for `#next_page` and `#previous_page` methods (which calculate the number of the next and previous pages, respectively). If you want, you can also overwrite those methods, to calculate custom 'next' and 'previous' page numbers.
 
-To understand better the implementation of the Base Adapter and how you could overwrite methods in order to make a functional Custom Adapter, take a look at its definition in: [Base adapter Class](https://github.com/Wolox/wor-paginate/blob/master/lib/wor/paginate/adapters/base.rb).
+To understand better the implementation of the Base Adapter and how you could overwrite methods in order to make a functional Custom Adapter, take a look at its definition in: [Base adapter Class](https://github.com/icoluccio/wor-paginate/blob/main/lib/wor/paginate/adapters/base.rb).
 Keep in mind that an instance of your Custom Adapter must answer `true` to the `#adapt?` method inherited from the Base Adapter, in order to make it "adaptable" to the content.
 
 #### Adapters Operations
-There are also helper methods available to dynamically operate the gem's adapters, so you can configurate them, whether in the initializer or in an internal part of your application. Once you include the gem, you'll be provided with the following methods, inside the Config module:
+There are also helper methods available to dynamically operate the gem's adapters, so you can configure them, whether in the initializer or in an internal part of your application. Once you include the gem, you'll be provided with the following methods, inside the Config module:
 * `Wor::Paginate::Config.add_adapter(adapter)`: Add a specific adapter to the array of the gem's adapters. The 'adapter' variable must be a Class reference to an Adapter Class (that class has to have a similar structure as the CustomAdapter example above).
-* `Wor::Paginate::Config.remove_adapter(adapter)`: Remove an specific adapter from the array of the gem's adapters.
+* `Wor::Paginate::Config.remove_adapter(adapter)`: Remove a specific adapter from the array of the gem's adapters.
 * `Wor::Paginate::Config.clear_adapters`: This method empties the array of the gem's adapters.
 * `Wor::Paginate::Config.adapters`: Returns all the current internal adapters inside the gem.
-* `Wor::Paginate::Config.reset_adapters!`: This helper resets the gem's adapters to its default array of adapters. You can see how the array of default adapters looks like at the beggining of the `Wor::Paginate::Config` module: [Config module](https://github.com/Wolox/wor-paginate/blob/master/lib/wor/paginate/config.rb).
+* `Wor::Paginate::Config.reset_adapters!`: This helper resets the gem's adapters to its default array of adapters. You can see how the array of default adapters looks like at the beginning of the `Wor::Paginate::Config` module: [Config module](https://github.com/icoluccio/wor-paginate/blob/main/lib/wor/paginate/config.rb).
 
-When the gem paginates, it tries to adapt the content to the first adapter that is "adaptable" for the content (unless a custom adapter has been passed to render_paginated or a default_adapter has been defined in the initializer). So beware of which adapters (and in which order) are you leaving in the `Wor::Paginate::Config.adapters` array, because depending on those, the gem will try to adapt the content.
+When the gem paginates, it tries to adapt the content to the first adapter that is "adaptable" for the content (unless a custom adapter has been passed to render_paginated or a default_adapter has been defined in the initializer). So beware of which adapters (and in which order) you are leaving in the `Wor::Paginate::Config.adapters` array, because depending on those, the gem will try to adapt the content.
 
 
 ### Working with Kaminari or will_paginate
-If either Kaminari or will_paginate are required in the project, Wor::Paginate will use them for pagination with no code or configuration change.
+If either Kaminari or will_paginate is required in the project, Wor::Paginate will use them for pagination with no code or configuration change.
 
 ### Test helpers
 You can use the `be_paginated` matcher to test your endpoints. It also accepts the `with` chain method to receive a formatter.
@@ -304,15 +303,15 @@ end
 ### Working with panko-serializer
 
 The default formatter is [Active Model Serializer](https://github.com/rails-api/active_model_serializers).
-If you want to change it, you should replace the formatter to another one. In this section, we are going to work with `PankoFormatter`
+If you want to change it, you should replace the formatter with another one. In this section, we are going to work with `PankoFormatter`
 
 #### example 
 ```ruby
-Wor::Paginate.configure do |config
+Wor::Paginate.configure do |config|
   config.formatter = Wor::Paginate::Formatters::PankoFormatter
 end
 ```
-and next pass the specific serializer that you can use in the specific endpoint
+and next, pass the specific serializer that you can use in the specific endpoint
 
 ```ruby
   def index
@@ -322,35 +321,40 @@ and next pass the specific serializer that you can use in the specific endpoint
 ## Contributing
 
 1. Fork it
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Add some feature'`)
-4. Run rubocop lint (`bundle exec rubocop -R --format simple`)
-5. Run rspec tests (`bundle exec rspec`)
-6. Push your branch (`git push origin my-new-feature`)
-7. Create a new Pull Request to `master` branch
+2. Run `bundle install && bundle exec appraisal generate` once, to install dependencies and generate the per-Rails-version gemfiles (`gemfiles/rails_*.gemfile`) used for testing
+3. Run `bundle exec overcommit --install` once, to enable the pre-push hook (runs RuboCop and the full spec suite with its 100%-coverage gate automatically on every `git push`)
+4. Create your feature branch (`git checkout -b my-new-feature`)
+5. Commit your changes (`git commit -am 'Add some feature'`)
+6. Run RuboCop lint (`bundle exec rubocop lib spec --format simple`)
+7. Run rspec tests (`BUNDLE_GEMFILE=gemfiles/rails_8.1.gemfile bundle exec rspec`)
+8. Push your branch (`git push origin my-new-feature`) — the pre-push hook re-verifies both automatically
+9. Create a new Pull Request to `main` branch
 
 ## Releases
-📢 [See what's changed in a recent version](https://github.com/Wolox/wor-paginate/releases)
+📢 [See what's changed in a recent version](https://github.com/icoluccio/wor-paginate/releases)
 
 ## About ##
 
-The current maintainers of this gem are :
-* [Martín Mallea](https://github.com/mnmallea)
+The current maintainer of this gem is:
+* [Ignacio Coluccio](https://github.com/icoluccio)
 
 This project was developed by:
-* [Hugo Farji](https://github.com/hdf1986)
 * [Ignacio Coluccio](https://github.com/icoluccio)
+* [Martín Mallea](https://github.com/mnmallea)
+* [Samir Tapiero](https://github.com/blacksam07)
+* [Hugo Farji](https://github.com/hdf1986)
 * [Alan Halatian](https://github.com/alanhala)
 
-At [Wolox](http://www.wolox.com.ar)
+Originally at [Wolox](http://www.wolox.com.ar)
 
 [![Wolox](https://raw.githubusercontent.com/Wolox/press-kit/master/logos/logo_banner.png)](http://www.wolox.com.ar)
 
 ## License
 
-**wor-paginate** is available under the MIT [license](https://raw.githubusercontent.com/Wolox/wor-paginate/master/LICENSE.md).
+**wor-paginate** is available under the MIT [license](https://raw.githubusercontent.com/icoluccio/wor-paginate/main/LICENSE.md).
 
     Copyright (c) 2017 Wolox
+    Copyright (c) 2026 Ignacio Coluccio
 
     Permission is hereby granted, free of charge, to any person obtaining a copy
     of this software and associated documentation files (the "Software"), to deal

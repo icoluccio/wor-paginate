@@ -24,13 +24,14 @@ module Wor
         end
 
         def total_pages
-          (total_count.to_f / @limit.to_f).ceil
+          (total_count.to_f / @limit).ceil
         end
 
         private
 
         def offset
           return 0 if @page.zero?
+
           (@page - 1) * @limit
         end
       end

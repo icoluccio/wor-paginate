@@ -8,7 +8,7 @@ describe Wor::Paginate::Config, type: :controller do
       end
 
       it 'responds to the attribute' do
-        expect(described_class.respond_to?(attribute)).to be_truthy
+        expect(described_class).to respond_to(attribute)
       end
 
       it 'has a default' do
@@ -18,7 +18,7 @@ describe Wor::Paginate::Config, type: :controller do
   end
 
   context 'with default adapters' do
-    described_class::DEFAULT_ADAPTERS.each do |_, value|
+    described_class::DEFAULT_ADAPTERS.each_value do |value|
       before { described_class.reset_adapters! }
 
       it 'has default values' do
@@ -56,8 +56,8 @@ describe Wor::Paginate::Config, type: :controller do
     end
   end
 
-  described_class::DEFAULTS_CONFIGS.except(:default_adapter).each do |attribute, _value|
-    context "changing #{attribute}" do
+  described_class::DEFAULTS_CONFIGS.except(:default_adapter).each_key do |attribute|
+    context "when changing #{attribute}" do
       let!(:n) { rand(300) }
 
       before do
