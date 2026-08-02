@@ -7,7 +7,8 @@ describe DummyModelsWithoutGemsController, type: :controller do
     let(:expected_list) { dummy_models.first(25).as_json(only: %i[id name something]) }
 
     before do
-      [Wor::Paginate::Adapters::Kaminari, Wor::Paginate::Adapters::WillPaginate].each do |klass|
+      [Wor::Paginate::Adapters::Kaminari, Wor::Paginate::Adapters::WillPaginate,
+       Wor::Paginate::Adapters::Pagy].each do |klass|
         allow_any_instance_of(klass).to receive(:adapt?).and_return(false)
       end
     end
@@ -70,7 +71,8 @@ describe DummyModelsWithoutGemsController, type: :controller do
     end
 
     before do
-      [Wor::Paginate::Adapters::Kaminari, Wor::Paginate::Adapters::WillPaginate].each do |klass|
+      [Wor::Paginate::Adapters::Kaminari, Wor::Paginate::Adapters::WillPaginate,
+       Wor::Paginate::Adapters::Pagy].each do |klass|
         allow_any_instance_of(klass).to receive(:adapt?).and_return(false)
       end
     end
@@ -130,7 +132,8 @@ describe DummyModelsWithoutGemsController, type: :controller do
     let(:expected_list) { dummy_models.first(5).as_json(only: %i[id name something]) }
 
     before do
-      [Wor::Paginate::Adapters::Kaminari, Wor::Paginate::Adapters::WillPaginate].each do |klass|
+      [Wor::Paginate::Adapters::Kaminari, Wor::Paginate::Adapters::WillPaginate,
+       Wor::Paginate::Adapters::Pagy].each do |klass|
         allow_any_instance_of(klass).to receive(:adapt?).and_return(false)
       end
     end
@@ -152,7 +155,8 @@ describe DummyModelsWithoutGemsController, type: :controller do
     let!(:dummy_models) { create_list(:dummy_model, model_count) }
 
     before do
-      [Wor::Paginate::Adapters::Kaminari, Wor::Paginate::Adapters::WillPaginate].each do |klass|
+      [Wor::Paginate::Adapters::Kaminari, Wor::Paginate::Adapters::WillPaginate,
+       Wor::Paginate::Adapters::Pagy].each do |klass|
         allow_any_instance_of(klass).to receive(:adapt?).and_return(false)
       end
     end

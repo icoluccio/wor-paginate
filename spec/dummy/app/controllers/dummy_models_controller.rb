@@ -29,6 +29,10 @@ class DummyModelsController < ApplicationController
     render_paginated DummyModel.page(1).per(25)
   end
 
+  def index_pagy
+    render_paginated DummyModel
+  end
+
   def index_will_paginate
     render_paginated DummyModel.paginate(page: 1, per_page: 25)
   end
