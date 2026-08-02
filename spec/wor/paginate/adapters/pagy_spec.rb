@@ -42,7 +42,7 @@ describe Wor::Paginate::Adapters::Pagy do
       end
     end
 
-    context 'on the last page' do
+    context 'when on the last page' do
       let(:adapter) { described_class.new(DummyModel.order(:id), 2, n_page) }
 
       it 'has no next_page' do
