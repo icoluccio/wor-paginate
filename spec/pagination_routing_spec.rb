@@ -16,6 +16,25 @@ describe 'pagination over real HTTP routes', type: :request do
     include_examples 'valid page'
   end
 
+  describe 'GET /dummy_models/index_pagy' do
+    let!(:model_count) { 28 }
+    let!(:dummy_models) { create_list(:dummy_model, model_count) }
+    let(:expected_list) { dummy_models.first(25).as_json(only: %i[id name something]) }
+
+    before do
+      [Wor::Paginate::Adapters::Kaminari, Wor::Paginate::Adapters::WillPaginate].each do |klass|
+        allow_any_instance_of(klass).to receive(:adapt?).and_return(false)
+      end
+      get '/dummy_models/index_pagy'
+    end
+
+    include_context 'with default pagination params'
+
+    include_examples 'proper pagination params'
+
+    include_examples 'valid page'
+  end
+
   describe 'GET /dummy_sons' do
     let!(:model_count) { 28 }
     let!(:dummy_models) { create_list(:dummy_model, model_count, :with_son) }
