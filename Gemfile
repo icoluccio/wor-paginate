@@ -23,6 +23,7 @@ group :development, :test do
   gem 'generator_spec', '~> 0.10'
   gem 'kaminari', '~> 1.2'
   gem 'overcommit', '~> 0.71'
+  gem 'pagy', '~> 43.0'
   gem 'panko_serializer', '~> 0.8.5'
   gem 'puma', '~> 6.0'
   gem 'rake', '~> 13.0'
