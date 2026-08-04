@@ -10,7 +10,7 @@ module Wor
         include Helpers::TotalCount
 
         def adapt?
-          defined?(::Pagy) && super
+          defined?(::Pagy::Offset) && super
         end
 
         def required_methods

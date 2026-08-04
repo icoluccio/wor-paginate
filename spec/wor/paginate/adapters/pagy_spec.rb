@@ -14,7 +14,7 @@ describe Wor::Paginate::Adapters::Pagy do
       end
 
       it 'responds to required_methods' do
-        expect(adapter.required_methods).not_to be_empty
+        expect(adapter.required_methods).to eq %i[offset limit table_name]
       end
 
       it 'responds to count' do
@@ -64,6 +64,35 @@ describe Wor::Paginate::Adapters::Pagy do
 
       it 'has no next_page' do
         expect(adapter.next_page).to be_nil
+      end
+    end
+
+    context 'when the page is beyond the last page' do
+      let(:adapter) { described_class.new(DummyModel.order(:id), 5, n_page) }
+
+      it 'returns no records' do
+        expect(adapter.paginated_content.to_a).to eq []
+      end
+
+      it 'has no next_page' do
+        expect(adapter.next_page).to be_nil
+      end
+
+      # Pagy's own out-of-range behavior: previous_page points at the last
+      # real page (2), not page - 1 (4) the way a naive default would. This
+      # adapter surfaces Pagy's answer as-is.
+      it 'has previous_page pointing at the last real page, not page - 1' do
+        expect(adapter.previous_page).to be 2
+      end
+    end
+
+    context 'when Pagy is not loaded' do
+      before { hide_const('Pagy') }
+
+      let(:adapter) { described_class.new(DummyModel.order(:id), 1, n_page) }
+
+      it 'does not adapt' do
+        expect(adapter).not_to be_adapt
       end
     end
   end

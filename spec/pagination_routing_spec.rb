@@ -21,12 +21,18 @@ describe 'pagination over real HTTP routes', type: :request do
     let!(:dummy_models) { create_list(:dummy_model, model_count) }
     let(:expected_list) { dummy_models.first(25).as_json(only: %i[id name something]) }
 
+    # This before hook proves the Pagy adapter is actually selected (not merely that
+    # output happens to match), which a spy + have_received in the example body can't do
+    # here: the expectation must be armed before the request fires.
+    # rubocop:disable RSpec/ExpectInHook, RSpec/MessageSpies
     before do
       [Wor::Paginate::Adapters::Kaminari, Wor::Paginate::Adapters::WillPaginate].each do |klass|
         allow_any_instance_of(klass).to receive(:adapt?).and_return(false)
       end
+      expect(Wor::Paginate::Adapters::Pagy).to receive(:new).and_call_original
       get '/dummy_models/index_pagy'
     end
+    # rubocop:enable RSpec/ExpectInHook, RSpec/MessageSpies
 
     include_context 'with default pagination params'
 

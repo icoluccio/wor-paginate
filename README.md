@@ -266,6 +266,8 @@ When the gem paginates, it tries to adapt the content to the first adapter that 
 ### Working with Kaminari, will_paginate, or Pagy
 If Kaminari, will_paginate, or [Pagy](https://github.com/ddnexus/pagy) is required in the project, Wor::Paginate will use it for pagination with no code or configuration change.
 
+If more than one is available, Wor::Paginate prefers Kaminari, then will_paginate, then Pagy. To opt out of one — for example, if Pagy happens to be in your bundle for unrelated reasons — call `Wor::Paginate::Config.remove_adapter(Wor::Paginate::Adapters::Pagy)` in the initializer.
+
 ### Test helpers
 You can use the `be_paginated` matcher to test your endpoints. It also accepts the `with` chain method to receive a formatter.
 
