@@ -10,9 +10,8 @@ describe Wor::Paginate::Generators::InstallGenerator, type: :generator do
       run_generator
     end
 
-    # rubocop:disable Style/BlockDelimiters
     it 'generates the correct structure for initializer' do
-      expect(destination_root).to(have_structure {
+      expect(destination_root).to(have_structure do
         no_file 'wor_paginate.rb'
         directory 'config' do
           no_file 'wor_paginate.rb'
@@ -22,8 +21,7 @@ describe Wor::Paginate::Generators::InstallGenerator, type: :generator do
             end
           end
         end
-      })
+      end)
     end
-    # rubocop:enable Style/BlockDelimiters
   end
 end

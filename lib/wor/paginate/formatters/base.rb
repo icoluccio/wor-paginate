@@ -5,7 +5,7 @@ module Wor
     module Formatters
       class Base
         include Utils::UriHelper
-        attr_accessor :adapter, :content, :formatter, :options
+        attr_accessor :adapter, :formatter, :options
 
         def initialize(adapter, options = {})
           @adapter = adapter
@@ -35,9 +35,7 @@ module Wor
         end
 
         def paginated_content
-          # rubocop:disable Naming/MemoizedInstanceVariableName -- @content matches the public `content` attr_accessor above; renaming it would silently change what `content` returns.
-          @content ||= adapter.paginated_content
-          # rubocop:enable Naming/MemoizedInstanceVariableName
+          @paginated_content ||= adapter.paginated_content
         end
 
         def serialized_content
