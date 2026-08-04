@@ -15,6 +15,7 @@ Wor::Paginate
       - [Custom formatters](#custom-formatters)
       - [Custom adapters](#custom-adapters)
     - [Working with Kaminari, will_paginate, or Pagy](#working-with-kaminari-will_paginate-or-pagy)
+      - [Kaminari and will_paginate both define `Model.page`](#kaminari-and-will_paginate-both-define-modelpage)
     - [Test helpers](#test-helpers)
   - [Contributing](#contributing)
   - [Releases](#releases)
@@ -266,7 +267,42 @@ When the gem paginates, it tries to adapt the content to the first adapter that 
 ### Working with Kaminari, will_paginate, or Pagy
 If Kaminari, will_paginate, or [Pagy](https://github.com/ddnexus/pagy) is required in the project, Wor::Paginate will use it for pagination with no code or configuration change.
 
-If more than one is available, Wor::Paginate prefers Kaminari, then will_paginate, then Pagy. To opt out of one — for example, if Pagy happens to be in your bundle for unrelated reasons — call `Wor::Paginate::Config.remove_adapter(Wor::Paginate::Adapters::Pagy)` in the initializer.
+If more than one is available, Wor::Paginate prefers will_paginate, then Kaminari, then Pagy (the order they're checked in `Config::DEFAULT_ADAPTERS`). To opt out of one — for example, if Pagy happens to be in your bundle for unrelated reasons — call `Wor::Paginate::Config.remove_adapter(Wor::Paginate::Adapters::Pagy)` in the initializer.
+
+#### Kaminari and will_paginate both define `Model.page`
+Kaminari and will_paginate each add their own `page` class method to your models, for the same purpose but with a different return value. Whichever gem's Rails initializer happens to run last silently overwrites the other's definition — this isn't affected by Gemfile order.
+
+Wor::Paginate's own adapter selection already routes around this (see the precedence above), but if you specifically need Kaminari's own pagination behavior while will_paginate is also installed, rename Kaminari's method and give it a small custom adapter that calls the renamed method — the built-in `Wor::Paginate::Adapters::Kaminari` can't be reused directly here, since it calls `.page` literally with no option to use a different name:
+
+```ruby
+# config/initializers/kaminari.rb
+Kaminari.configure do |config|
+  config.page_method_name = :kpage
+end
+```
+
+```ruby
+# app/adapters/kaminari_renamed_adapter.rb
+class KaminariRenamedAdapter < Wor::Paginate::Adapters::Base
+  def required_methods
+    %i[kpage]
+  end
+
+  def paginated_content
+    @paginated_content ||= @content.kpage(@page).per(@limit)
+  end
+
+  def previous_page
+    paginated_content.prev_page
+  end
+
+  delegate :count, :total_count, :total_pages, :next_page, to: :paginated_content
+end
+```
+
+```ruby
+render_paginated SomeModel, adapter: KaminariRenamedAdapter
+```
 
 ### Test helpers
 You can use the `be_paginated` matcher to test your endpoints. It also accepts the `with` chain method to receive a formatter.
