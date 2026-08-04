@@ -2,6 +2,8 @@
 
 ### V0.4.2
 * [#3](https://github.com/icoluccio/wor-paginate/pull/3) Add Pagy adapter - [@icoluccio](https://github.com/icoluccio).
+* [#4](https://github.com/icoluccio/wor-paginate/pull/4) Remove remaining rubocop:disable/:enable comments - [@icoluccio](https://github.com/icoluccio).
+* [#5](https://github.com/icoluccio/wor-paginate/pull/5) Document Kaminari/will_paginate Model.page collision - [@icoluccio](https://github.com/icoluccio).
 
 ### V0.4.1
 * [#2](https://github.com/icoluccio/wor-paginate/pull/2) Remove remaining dead Wolox links - [@icoluccio](https://github.com/icoluccio).
