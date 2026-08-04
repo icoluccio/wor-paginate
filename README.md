@@ -267,12 +267,12 @@ When the gem paginates, it tries to adapt the content to the first adapter that 
 ### Working with Kaminari, will_paginate, or Pagy
 If Kaminari, will_paginate, or [Pagy](https://github.com/ddnexus/pagy) is required in the project, Wor::Paginate will use it for pagination with no code or configuration change.
 
-If more than one is available, Wor::Paginate prefers will_paginate, then Kaminari, then Pagy (the order they're checked in `Config::DEFAULT_ADAPTERS`). To opt out of one — for example, if Pagy happens to be in your bundle for unrelated reasons — call `Wor::Paginate::Config.remove_adapter(Wor::Paginate::Adapters::Pagy)` in the initializer.
+If more than one is available, Wor::Paginate prefers will_paginate, then Kaminari, then Pagy (the order they're checked in `Config::DEFAULT_ADAPTERS`). To opt out of one, for example if Pagy happens to be in your bundle for unrelated reasons, call `Wor::Paginate::Config.remove_adapter(Wor::Paginate::Adapters::Pagy)` in the initializer.
 
 #### Kaminari and will_paginate both define `Model.page`
-Kaminari and will_paginate each add their own `page` class method to your models, for the same purpose but with a different return value. Whichever gem's Rails initializer happens to run last silently overwrites the other's definition — this isn't affected by Gemfile order.
+Kaminari and will_paginate each add their own `page` class method to your models, for the same purpose but with a different return value. Whichever gem's Rails initializer happens to run last silently overwrites the other's definition. This isn't affected by Gemfile order.
 
-Wor::Paginate's own adapter selection already routes around this (see the precedence above), but if you specifically need Kaminari's own pagination behavior while will_paginate is also installed, rename Kaminari's method and give it a small custom adapter that calls the renamed method — the built-in `Wor::Paginate::Adapters::Kaminari` can't be reused directly here, since it calls `.page` literally with no option to use a different name:
+Wor::Paginate's own adapter selection already routes around this (see the precedence above). If you specifically need Kaminari's own pagination behavior while will_paginate is also installed, rename Kaminari's method and subclass the built-in Kaminari adapter, overriding only the two methods that call `.page` literally:
 
 ```ruby
 # config/initializers/kaminari.rb
@@ -283,7 +283,7 @@ end
 
 ```ruby
 # app/adapters/kaminari_renamed_adapter.rb
-class KaminariRenamedAdapter < Wor::Paginate::Adapters::Base
+class KaminariRenamedAdapter < Wor::Paginate::Adapters::Kaminari
   def required_methods
     %i[kpage]
   end
@@ -291,12 +291,6 @@ class KaminariRenamedAdapter < Wor::Paginate::Adapters::Base
   def paginated_content
     @paginated_content ||= @content.kpage(@page).per(@limit)
   end
-
-  def previous_page
-    paginated_content.prev_page
-  end
-
-  delegate :count, :total_count, :total_pages, :next_page, to: :paginated_content
 end
 ```
 
