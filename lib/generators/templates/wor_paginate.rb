@@ -20,6 +20,7 @@ Wor::Paginate.configure do |config|
   # Wor::Paginate::Adapters::WillPaginateAlreadyPaginated
   # Wor::Paginate::Adapters::WillPaginate
   # Wor::Paginate::Adapters::Kaminari
+  # Wor::Paginate::Adapters::Pagy
   # Wor::Paginate::Adapters::ActiveRecord
   # Wor::Paginate::Adapters::Enumerable
 
@@ -30,6 +31,7 @@ Wor::Paginate.configure do |config|
   # Adapters::WillPaginateAlreadyPaginated,
   # Adapters::WillPaginate,
   # Adapters::Kaminari,
+  # Adapters::Pagy,
   # Adapters::ActiveRecord,
   # Adapters::Enumerable
   # ]

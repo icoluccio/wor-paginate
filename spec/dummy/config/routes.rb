@@ -11,6 +11,7 @@ Rails.application.routes.draw do
       get 'index_array'
       get 'index_will_paginate'
       get 'index_kaminari'
+      get 'index_pagy'
       get 'index_exception'
       get 'index_scoped'
       get 'index_with_params'

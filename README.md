@@ -14,7 +14,7 @@ Wor::Paginate
       - [Custom options](#custom-options)
       - [Custom formatters](#custom-formatters)
       - [Custom adapters](#custom-adapters)
-    - [Working with Kaminari or will_paginate](#working-with-kaminari-or-will_paginate)
+    - [Working with Kaminari, will_paginate, or Pagy](#working-with-kaminari-will_paginate-or-pagy)
     - [Test helpers](#test-helpers)
   - [Contributing](#contributing)
   - [Releases](#releases)
@@ -263,8 +263,10 @@ There are also helper methods available to dynamically operate the gem's adapter
 When the gem paginates, it tries to adapt the content to the first adapter that is "adaptable" for the content (unless a custom adapter has been passed to render_paginated or a default_adapter has been defined in the initializer). So beware of which adapters (and in which order) you are leaving in the `Wor::Paginate::Config.adapters` array, because depending on those, the gem will try to adapt the content.
 
 
-### Working with Kaminari or will_paginate
-If either Kaminari or will_paginate is required in the project, Wor::Paginate will use them for pagination with no code or configuration change.
+### Working with Kaminari, will_paginate, or Pagy
+If Kaminari, will_paginate, or [Pagy](https://github.com/ddnexus/pagy) is required in the project, Wor::Paginate will use it for pagination with no code or configuration change.
+
+If more than one is available, Wor::Paginate prefers Kaminari, then will_paginate, then Pagy. To opt out of one — for example, if Pagy happens to be in your bundle for unrelated reasons — call `Wor::Paginate::Config.remove_adapter(Wor::Paginate::Adapters::Pagy)` in the initializer.
 
 ### Test helpers
 You can use the `be_paginated` matcher to test your endpoints. It also accepts the `with` chain method to receive a formatter.

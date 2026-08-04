@@ -16,6 +16,7 @@ module Wor
         will_paginate_paginated: Adapters::WillPaginateAlreadyPaginated,
         will_paginate: Adapters::WillPaginate,
         kaminari: Adapters::Kaminari,
+        pagy: Adapters::Pagy,
         active_record: Adapters::ActiveRecord,
         enumerable: Adapters::Enumerable
       }.freeze

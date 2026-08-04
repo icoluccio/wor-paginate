@@ -12,7 +12,7 @@ Gem::Specification.new do |s|
   s.email       = ["ignacio.coluccio@gmail.com", "martin.mallea@wolox.com.ar", "ramiro.rojo@wolox.com.ar", "lucas.voboril@wolox.com.ar"]
   s.homepage    = "https://github.com/icoluccio/wor-paginate"
   s.summary     = "Simplified pagination for Rails API controllers"
-  s.description = "Wor::Paginate is a gem for Rails that simplifies pagination, particularly for controller methods, while standardizing JSON output for APIs. It's meant to work both as a standalone pagination gem and as an extra layer over Kaminari and will_paginate"
+  s.description = "Wor::Paginate is a gem for Rails that simplifies pagination, particularly for controller methods, while standardizing JSON output for APIs. It's meant to work both as a standalone pagination gem and as an extra layer over Kaminari, will_paginate, or Pagy"
   s.license     = "MIT"
 
   s.files = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec)/}) }

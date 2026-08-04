@@ -16,6 +16,7 @@ ROUTES=(
   dummy_models/index_array
   dummy_models/index_will_paginate
   dummy_models/index_kaminari
+  dummy_models/index_pagy
   dummy_models/index_exception
   dummy_models/index_scoped
   dummy_models/index_with_params

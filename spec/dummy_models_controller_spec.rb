@@ -79,6 +79,26 @@ describe DummyModelsController, type: :controller do
       include_examples 'valid page'
     end
 
+    context 'when paginating an ActiveRecord with pagy' do
+      before do
+        [Wor::Paginate::Adapters::Kaminari, Wor::Paginate::Adapters::WillPaginate].each do |klass|
+          allow_any_instance_of(klass).to receive(:adapt?).and_return(false)
+        end
+        allow(Wor::Paginate::Adapters::Pagy).to receive(:new).and_call_original
+        get :index_pagy
+      end
+
+      it 'selects the Pagy adapter, not merely produces matching output' do
+        expect(Wor::Paginate::Adapters::Pagy).to have_received(:new)
+      end
+
+      include_context 'with default pagination params'
+
+      include_examples 'proper pagination params'
+
+      include_examples 'valid page'
+    end
+
     context 'when paginating an array' do
       before { get :index_array }
 
@@ -209,6 +229,7 @@ describe DummyModelsController, type: :controller do
         config.remove_adapter(Wor::Paginate::Adapters::WillPaginate)
         config.remove_adapter(Wor::Paginate::Adapters::Kaminari)
         config.remove_adapter(Wor::Paginate::Adapters::ActiveRecord)
+        config.remove_adapter(Wor::Paginate::Adapters::Pagy)
         config.add_adapter(CustomAdapter)
         pagination_params[:count] = pagination_params[:page] = 8
         pagination_params[:total_pages] = 4

@@ -1,0 +1,99 @@
+require 'spec_helper'
+
+describe Wor::Paginate::Adapters::Pagy do
+  describe '#index' do
+    let!(:n) { 28 }
+    let!(:n_page) { 25 }
+    let!(:dummy_models) { create_list(:dummy_model, n) }
+
+    context 'with results' do
+      let(:adapter) { described_class.new(DummyModel.order(:id), 1, n_page) }
+
+      it 'adapts when Pagy is loaded and the content is ActiveRecord-shaped' do
+        expect(adapter.adapt?).to be true
+      end
+
+      it 'responds to required_methods' do
+        expect(adapter.required_methods).to eq %i[offset limit table_name]
+      end
+
+      it 'responds to count' do
+        expect(adapter.count).to be n_page
+      end
+
+      it 'responds to total_count' do
+        expect(adapter.total_count).to be n
+      end
+
+      it 'responds to total_pages' do
+        expect(adapter.total_pages).to be 2
+      end
+
+      it 'responds to paginated_content with the correct page slice' do
+        expect(adapter.paginated_content.map(&:id)).to eq dummy_models.first(n_page).map(&:id)
+      end
+
+      it 'has no previous_page on the first page' do
+        expect(adapter.previous_page).to be_nil
+      end
+
+      it 'has a next_page' do
+        expect(adapter.next_page).to be 2
+      end
+    end
+
+    context 'when on the last page' do
+      let(:adapter) { described_class.new(DummyModel.order(:id), 2, n_page) }
+
+      it 'has no next_page' do
+        expect(adapter.next_page).to be_nil
+      end
+
+      it 'has a previous_page' do
+        expect(adapter.previous_page).to be 1
+      end
+    end
+
+    context 'with an empty collection' do
+      let!(:dummy_models) { [] }
+      let(:adapter) { described_class.new(DummyModel.order(:id), 1, n_page) }
+
+      it 'floors total_pages at 1 instead of 0' do
+        expect(adapter.total_pages).to be 1
+      end
+
+      it 'has no next_page' do
+        expect(adapter.next_page).to be_nil
+      end
+    end
+
+    context 'when the page is beyond the last page' do
+      let(:adapter) { described_class.new(DummyModel.order(:id), 5, n_page) }
+
+      it 'returns no records' do
+        expect(adapter.paginated_content.to_a).to eq []
+      end
+
+      it 'has no next_page' do
+        expect(adapter.next_page).to be_nil
+      end
+
+      # Pagy's own out-of-range behavior: previous_page points at the last
+      # real page (2), not page - 1 (4) the way a naive default would. This
+      # adapter surfaces Pagy's answer as-is.
+      it 'has previous_page pointing at the last real page, not page - 1' do
+        expect(adapter.previous_page).to be 2
+      end
+    end
+
+    context 'when Pagy is not loaded' do
+      before { hide_const('Pagy') }
+
+      let(:adapter) { described_class.new(DummyModel.order(:id), 1, n_page) }
+
+      it 'does not adapt' do
+        expect(adapter).not_to be_adapt
+      end
+    end
+  end
+end
