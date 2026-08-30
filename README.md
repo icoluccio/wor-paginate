@@ -11,12 +11,14 @@ Wor::Paginate
     - [Basic usage](#basic-usage)
     - [Customizing output](#customizing-output)
       - [Custom serializers](#custom-serializers)
+      - [Block serialization](#block-serialization)
       - [Custom options](#custom-options)
       - [Custom formatters](#custom-formatters)
       - [Custom adapters](#custom-adapters)
     - [Working with Kaminari, will_paginate, or Pagy](#working-with-kaminari-will_paginate-or-pagy)
       - [Kaminari and will_paginate both define `Model.page`](#kaminari-and-will_paginate-both-define-modelpage)
     - [Test helpers](#test-helpers)
+      - [Field value chains](#field-value-chains)
   - [Contributing](#contributing)
   - [Releases](#releases)
   - [About](#about)
@@ -108,6 +110,19 @@ A custom serializer for each object can be passed using the `each_serializer` op
 render_paginated DummyModel, each_serializer: CustomDummyModelSerializer
 ```
 where the serializer is just an [`ActiveModel::Serializer`](https://github.com/rails-api/active_model_serializers).
+
+#### Block serialization
+When you need a custom per-record payload that doesn't fit a serializer class, pass a block to `render_paginated`. The block receives each record and its return value is used as the serialized entry:
+
+```ruby
+def index
+  render_paginated(DummyModel) { |record| { id: record.id, label: record.name.upcase } }
+end
+```
+
+All pagination metadata (`count`, `total_pages`, `next_page_url`, etc.) is still computed and returned normally. The block only controls the content of the `page` array.
+
+The block form works with any adapter and takes precedence over `each_serializer` when both are supplied.
 
 #### Custom options
 ##### max_limit
@@ -299,7 +314,7 @@ render_paginated SomeModel, adapter: KaminariRenamedAdapter
 ```
 
 ### Test helpers
-You can use the `be_paginated` matcher to test your endpoints. It also accepts the `with` chain method to receive a formatter.
+You can use the `be_paginated` matcher to test your endpoints.
 
 You only need to add this in your rails_helper.rb
 
@@ -332,6 +347,22 @@ describe YourController do
 end
 ```
 
+#### Field value chains
+
+You can assert specific pagination field values by chaining matchers:
+
+```ruby
+expect(response_body).to be_paginated
+  .with_total_count(42)
+  .with_current_page(1)
+  .with_next_page(2)
+  .with_previous_page(nil)
+  .with_total_pages(3)
+  .with_count(25)
+```
+
+Each chain is optional and independent. When a chain assertion fails, the error message names the specific field and the expected vs actual value.
+
 ### Working with panko-serializer
 
 The default formatter is [Active Model Serializer](https://github.com/rails-api/active_model_serializers).
@@ -359,7 +390,7 @@ and next, pass the specific serializer that you can use in the specific endpoint
 5. Commit your changes (`git commit -am 'Add some feature'`)
 6. Run RuboCop lint (`bundle exec rubocop lib spec --format simple`)
 7. Run rspec tests (`BUNDLE_GEMFILE=gemfiles/rails_8.1.gemfile bundle exec rspec`)
-8. Push your branch (`git push origin my-new-feature`) — the pre-push hook re-verifies both automatically
+8. Push your branch (`git push origin my-new-feature`) - the pre-push hook re-verifies both automatically
 9. Create a new Pull Request to `main` branch
 
 ## Releases
