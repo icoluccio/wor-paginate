@@ -2,13 +2,13 @@ require_relative 'utils/preserve_records_helper'
 
 module Wor
   module Paginate
-    def render_paginated(content, options = {})
-      return render_paginate_with_include(content, options) if includes?(options)
+    def render_paginated(content, options = {}, &block)
+      return render_paginate_with_include(content, options, &block) if includes?(options)
 
-      render json: paginate(content, options)
+      render json: paginate(content, options, &block)
     end
 
-    def paginate(content, options = {})
+    def paginate(content, options = {}, &block)
       current_url = request.original_url
       if (preserve_records = options[:preserve_records])
         content, current_url = Wor::Paginate::Utils::PreserveRecordsHelper
@@ -18,11 +18,12 @@ module Wor
       adapter = find_adapter_for_content(content, options)
       raise Exceptions::NoPaginationAdapter if adapter.blank?
 
-      formatter_class(options).new(adapter, options.merge(_current_url: current_url)).format
+      merged = options.merge(_current_url: current_url)
+      formatter_class(options).new(adapter, merged, &block).format
     end
 
-    def render_paginate_with_include(content, options)
-      render json: paginate(content, options), include: options[:include]
+    def render_paginate_with_include(content, options, &block)
+      render json: paginate(content, options, &block), include: options[:include]
     end
 
     def formatter_class(options)

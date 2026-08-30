@@ -173,7 +173,7 @@ describe DummyModelsController, type: :controller do
       end
 
       it 'responds with valid total count' do
-        expect(response_body(response)['total_count']).to eq 3
+        expect(response_body(response)).to be_paginated.with_total_count(3)
       end
     end
 
@@ -208,6 +208,24 @@ describe DummyModelsController, type: :controller do
 
       it 'responds with valid page' do
         expect(response_body(response)['page']).to eq expected_list
+      end
+    end
+
+    context 'when paginating with a block for custom serialization' do
+      before { get :index_with_block }
+
+      include_context 'with default pagination params'
+
+      include_examples 'proper pagination params'
+
+      it 'applies the block to each record' do
+        page = response_body(response)['page']
+        expect(page.first).to eq('id' => dummy_models.first.id,
+                                 'custom' => dummy_models.first.name.upcase)
+      end
+
+      it 'does not expose attributes outside the block' do
+        expect(response_body(response)['page'].first.keys).to match_array(%w[id custom])
       end
     end
 

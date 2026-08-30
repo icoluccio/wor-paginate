@@ -32,10 +32,10 @@ describe DummyModelsController, type: :controller do
   end
 
   describe '#be_paginated failure messages' do
-    it 'describes the mismatch when the positive expectation fails' do
+    it 'describes the key mismatch when the positive expectation fails' do
       get :index_custom_formatter
       expect { expect(response_body(response)).to be_paginated }
-        .to raise_error(RSpec::Expectations::ExpectationNotMetError, /to be paginated with keys/)
+        .to raise_error(RSpec::Expectations::ExpectationNotMetError, /expected keys/)
     end
 
     it 'describes the mismatch when the negated expectation fails' do
@@ -43,6 +43,52 @@ describe DummyModelsController, type: :controller do
       expect { expect(response_body(response)).not_to be_paginated }
         .to raise_error(RSpec::Expectations::ExpectationNotMetError,
                         /not to be paginated with keys/)
+    end
+
+    it 'describes which field value mismatched' do
+      get :index
+      expect { expect(response_body(response)).to be_paginated.with_total_count(999) }
+        .to raise_error(RSpec::Expectations::ExpectationNotMetError,
+                        /expected total_count to be 999/)
+    end
+  end
+
+  describe '#be_paginated with field chain matchers' do
+    before { get :index }
+
+    it 'passes when total_count matches' do
+      expect(response).to be_paginated.with_total_count(model_count)
+    end
+
+    it 'passes when current_page matches' do
+      expect(response).to be_paginated.with_current_page(1)
+    end
+
+    it 'passes when next_page matches' do
+      expect(response).to be_paginated.with_next_page(2)
+    end
+
+    it 'passes when previous_page matches' do
+      expect(response).to be_paginated.with_previous_page(nil)
+    end
+
+    it 'passes when count matches' do
+      expect(response).to be_paginated.with_count(25)
+    end
+
+    it 'passes when total_pages matches' do
+      expect(response).to be_paginated.with_total_pages(2)
+    end
+
+    it 'passes when multiple chains are combined' do
+      expect(response).to be_paginated
+        .with_total_count(model_count)
+        .with_current_page(1)
+        .with_next_page(2)
+    end
+
+    it 'fails when the value does not match' do
+      expect(response).not_to be_paginated.with_total_count(999)
     end
   end
 

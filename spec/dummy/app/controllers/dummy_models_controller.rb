@@ -58,4 +58,8 @@ class DummyModelsController < ApplicationController
                      each_serializer: DummyModelWithPankoSerializer,
                      formatter: Wor::Paginate::Formatters::PankoFormatter
   end
+
+  def index_with_block
+    render_paginated(DummyModel) { |record| { id: record.id, custom: record.name.upcase } }
+  end
 end

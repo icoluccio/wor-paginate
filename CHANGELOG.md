@@ -1,5 +1,8 @@
 ## Change log
 
+### V0.5.0
+* [#6](https://github.com/icoluccio/wor-paginate/pull/6) Add block serialization to `render_paginated` - [@icoluccio](https://github.com/icoluccio).
+
 ### V0.4.2
 * [#3](https://github.com/icoluccio/wor-paginate/pull/3) Add Pagy adapter - [@icoluccio](https://github.com/icoluccio).
 * [#4](https://github.com/icoluccio/wor-paginate/pull/4) Remove remaining rubocop:disable/:enable comments - [@icoluccio](https://github.com/icoluccio).

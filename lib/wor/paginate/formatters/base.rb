@@ -7,14 +7,15 @@ module Wor
         include Utils::UriHelper
         attr_accessor :adapter, :formatter, :options
 
-        def initialize(adapter, options = {})
+        def initialize(adapter, options = {}, &block)
           @adapter = adapter
           @options = options
+          @serializer_block = block
         end
 
         def format # rubocop: disable Metrics/MethodLength
           {
-            page: serialized_content,
+            page: serialized_page,
             count: count,
             total_pages: total_pages,
             total_count: options[:total_count] || total_count,
@@ -36,6 +37,12 @@ module Wor
 
         def paginated_content
           @paginated_content ||= adapter.paginated_content
+        end
+
+        def serialized_page
+          return paginated_content.map(&@serializer_block) if @serializer_block
+
+          serialized_content
         end
 
         def serialized_content

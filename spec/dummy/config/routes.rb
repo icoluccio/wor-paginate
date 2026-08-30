@@ -21,6 +21,7 @@ Rails.application.routes.draw do
       get 'index_group_by'
       get 'index_custom_adapter'
       get 'index_panko_formatter'
+      get 'index_with_block'
     end
   end
 
